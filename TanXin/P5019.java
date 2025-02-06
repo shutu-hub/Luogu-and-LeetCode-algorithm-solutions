@@ -16,7 +16,6 @@ public class P5019 {
         fenzhi(array,0,array.length-1);
         System.out.println(day);
     }
-
     /**
      * 4 3 2 5 3 5
      * 2 1 0 3 1 3
@@ -47,5 +46,6 @@ public class P5019 {
         fenzhi(array,left,index-1);
         fenzhi(array,index+1,right);
     }
+
 
 }
