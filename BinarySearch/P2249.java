@@ -1,46 +1,24 @@
 package BinarySearch;
-
 import java.io.*;
 
+
 public class P2249 {
-    static InputStream inputStream = System.in;
-    static int bufferPointer = 0;
-    static int bytesRead = 0;
-    static byte[] buffer = new byte[1 << 16];
-
-    static int readInt() throws IOException {
-        int c = read();
-        while (c <= ' ') c = read();
-        boolean neg = (c == '-');
-        if (neg) c = read();
-        int res = 0;
-        do {
-            res = res * 10 + c - '0';
-            c = read();
-        } while (c >= '0' && c <= '9');
-        return neg ? -res : res;
-    }
-
-    static int read() throws IOException {
-        if (bufferPointer >= bytesRead) {
-            bytesRead = inputStream.read(buffer);
-            bufferPointer = 0;
-            if (bytesRead == -1) buffer[0] = -1;
-        }
-        return buffer[bufferPointer++];
-    }
 
     public static void main(String[] args) throws IOException {
-        int n = readInt();
-        int m = readInt();
+        StreamTokenizer st=new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
+        st.nextToken();
+        int n = (int) st.nval;
+        st.nextToken();
+        int m = (int) st.nval;
         int[] array = new int[n];
         for (int i = 0; i < n; i++) {
-            array[i] = readInt();
+            st.nextToken();
+            array[i] = (int) st.nval;
         }
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < m; i++) {
-            int x = readInt();
-            int pos = binarySearch(array, x);
+            st.nextToken();
+            int pos = binarySearch(array, (int) st.nval);
             sb.append(pos).append(' ');
         }
         System.out.println(sb.toString().trim());
@@ -48,14 +26,18 @@ public class P2249 {
 
     private static int binarySearch(int[] array, int target) {
         int left = 0, right = array.length - 1;
-        while (left < right) {
-            int mid = left + (right - left) / 2;
+        int index=-1;
+        while (left <= right) {
+            int mid = left+right>>1;
             if (array[mid] >= target) {
-                right = mid;
+                right = mid-1;
+                if (array[mid]==target){
+                    index=mid;
+                }
             } else {
                 left = mid + 1;
             }
         }
-        return array.length > 0 && array[left] == target ? left + 1 : -1;
+        return index==-1?index:index+1;
     }
 }
