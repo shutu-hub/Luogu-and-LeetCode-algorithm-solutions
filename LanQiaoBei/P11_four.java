@@ -18,12 +18,10 @@ public class P11_four {
         adj[5][4]=1;adj[5][6]=1;adj[5][7]=1;
         adj[6][1]=1;adj[6][5]=1;adj[6][7]=1;
         adj[7][2]=1; adj[7][3]=1; adj[7][5]=1; adj[7][6]=1;
-        for (int i = 1; i <=7 ; i++) {
-            dfs(adj,i,0,1);
-        }
+        // 深度为7的深度搜索 每个节点都有选择和不选择两种方式 两路递归
+        dfs(adj,1);
         System.out.println(sum);
     }
-
 
     public static int find(int x){
         if (f[x]==x){
@@ -32,11 +30,8 @@ public class P11_four {
         return find(f[x]);
     }
 
-    public static  void dfs(int[][]adj, int size, int index, int start){
-        if (index>size){
-            return;
-        }
-        if (index==size){
+    public static  void dfs(int[][]adj, int index){
+        if (index>7){
             // 判断组合是否联通
             // 1 初始化并查集
             for (int i = 1; i <=7 ; i++) {
@@ -64,11 +59,13 @@ public class P11_four {
                 }
             }
             if (count==1)sum++;
+            return;
         }
-        for (int i = start; i <= 7; i++) {
-            isUse[i]=true;
-            dfs(adj,size,index+1,i+1);
-            isUse[i]=false;
-        }
+        // 选择该节点
+        isUse[index]=true;
+        dfs(adj,index+1);
+        // 不选择该节点
+        isUse[index]=false;
+        dfs(adj,index+1);
     }
 }
