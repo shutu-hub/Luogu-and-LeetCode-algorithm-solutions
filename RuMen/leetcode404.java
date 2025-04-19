@@ -1,7 +1,5 @@
 package RuMen;
 
-import javax.swing.tree.TreeNode;
-
 public class leetcode404 {
     public static void main(String[] args) {
 
