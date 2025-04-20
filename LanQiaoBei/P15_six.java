@@ -24,7 +24,7 @@ public class P15_six {
         double sum=0;
         floyd(n,xingqiu);
         for (int i = 0; i < q; i++) {
-            int start = scanner.nextInt();
+            int start = scanner.nextInt()-1;
             int count = scanner.nextInt();
             int can=0;
             for (int j = 0; j < n; j++) {
