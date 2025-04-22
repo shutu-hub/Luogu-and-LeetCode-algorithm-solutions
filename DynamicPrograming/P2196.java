@@ -1,74 +1,71 @@
 package DynamicPrograming;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StreamTokenizer;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 public class P2196 {
     public static void main(String[] args) throws IOException {
         StreamTokenizer st = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
         st.nextToken();
         int n = (int) st.nval;
-        int[] number = new int[n];
-        int[] dp = new int[n];
-        Arrays.fill(dp, -1); // 初始化dp数组为-1，不过后续会被覆盖
-
+        int[]number=new int[n];
         for (int i = 0; i < n; i++) {
             st.nextToken();
-            number[i] = (int) st.nval;
+            number[i]=(int) st.nval;
         }
-
-        int[][] adv = new int[n][n];
-        for (int i = 0; i < n - 1; i++) {
-            for (int j = i + 1; j < n; j++) {
+        int[][]adj=new int[n][n];
+        for (int i = 0; i < n-1; i++) {
+            for (int j = i+1; j < n; j++) {
                 st.nextToken();
-                adv[i][j] = (int) st.nval; // 仅设置单向通道i->j
+                adj[i][j]=(int) st.nval;
             }
         }
-        int[] path = new int[n];
-        Arrays.fill(path, -1); // 使用-1表示无前驱
-        long max = dp[0];
-        int maxIndex = 0;
-        for (int j = 0; j < n; j++) {
-            // 初始化dp数组为每个地窖本身的地雷数
-            dp[j]=number[j];
-            for (int i = 0; i < j; i++) {
-                if (adv[i][j] != 0) { // 存在i到j的通道
-                    if (dp[i] + number[j] > dp[j]) {
-                        dp[j] = dp[i] + number[j];
-                        path[j] = i;
+        int[]dp=new int[n];
+        int[]prev=new int[n];
+        int max=-1;
+        int maxIndex=-1;
+        // 初始化所有前驱路径为-1 假设不存在
+        Arrays.fill(prev,-1);
+        for (int i = 0; i < n; i++) {
+            // 遍历所有点 初始化每个点的值
+            dp[i]=number[i];
+            for (int j = 0; j < i; j++) {
+                // 遍历其所有连通点 因为是往下的 所以连通点小于i
+                if (adj[j][i]!=0){
+                        // 连通
+                    if (dp[j]+number[i]>dp[i]){
+                        dp[i]=dp[j]+number[i];
+                        prev[i]=j;
                     }
                 }
             }
-            // 更新最大值和对应的索引
-            if (dp[j] > max) {
-                max = dp[j];
-                maxIndex = j;
+            if (dp[i]>max){
+                // max指向最大值的终点
+                max=dp[i];
+                maxIndex=i;
             }
         }
-
-        // 构建路径
-        ArrayList<Integer> pathList = new ArrayList<>();
-        int current = maxIndex;
-        while (current != -1) {
-            pathList.add(current + 1);
-            current = path[current];
+        // 输出到max点的路径
+        int current=maxIndex;
+        ArrayList<Integer>lists=new ArrayList<>();
+        while (current!=-1){
+            // 继续找前驱
+           lists.add(current+1);
+           current=prev[current];
         }
-        Collections.reverse(pathList); // 反转得到从起点到终点的顺序
-
-        // 输出路径
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < pathList.size(); i++) {
-            if (i > 0) {
-                sb.append(" ");
-            }
-            sb.append(pathList.get(i));
+        for (int i = lists.size()-1; i >=0 ; i--) {
+            System.out.print(lists.get(i)+" ");
         }
-        System.out.println(sb);
+        System.out.println();
         System.out.println(max);
     }
 }
+
+
+
+
