@@ -32,7 +32,6 @@ public class P14_four {
         // 计算出从n-1到n所花费的时间
         double min;
         min=Math.min(dp[n-1][0]+array[n-1][1]/1.3,dp[n-1][1]+xi[n]-xi[n-1]);
-        min  = Math.round(min * 100) / 100.0;
         System.out.printf("%.2f",min);
     }
 }

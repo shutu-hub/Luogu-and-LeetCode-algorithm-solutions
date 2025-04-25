@@ -26,7 +26,7 @@ public class P13_seven {
                 }
             }
         }
-
         System.out.println(dp[n] % mod);
     }
+
 }

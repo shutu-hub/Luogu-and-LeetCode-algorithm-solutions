@@ -25,8 +25,13 @@ public class P11_eight {
             }
         }
         long max=0;
-        for (int i = 0; i <= n ; i++) {
-            max=Math.max(max,dp[n-1][i]);
+        if ((n&1)==0){
+            // 偶数行 会走奇数步 左右之间差1
+            int mid=n/2;
+            max=Math.max(dp[n-1][mid],dp[n-1][mid+1]);
+        }else{
+            // 奇数
+            max=dp[n-1][n/2+1];
         }
         System.out.println(max);
     }
