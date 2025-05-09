@@ -3,10 +3,9 @@ package review;
 import java.util.Scanner;
 
 
-
 public class P2036 {
 	public static int min=Integer.MAX_VALUE;
-	
+
 	public static void main(String[] args) {
 		Scanner scanner=new Scanner(System.in);
 		int n=scanner.nextInt();
@@ -20,7 +19,8 @@ public class P2036 {
 		dfs(array,1,0,1);
 		System.out.println(min);
 	}
-	
+
+
 	public static void dfs(int[][]array,int s,int b,int index) {
 		if (index>=array.length) {
 			if (s==1 && b==0) {

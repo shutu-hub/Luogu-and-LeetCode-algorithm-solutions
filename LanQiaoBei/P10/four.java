@@ -1,73 +1,60 @@
 package LanQiaoBei.P10;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.Scanner;
 
-
 public class four {
-    public static int[]dx={0,0,1,-1};
-    public static int[]dy={1,-1,0,0};
-    static long min=Integer.MAX_VALUE;
-    static String[] chars={"R","L","D","U"};
-    public static ArrayList<String> path=new ArrayList<>();
-    static int[][]minBuShu=new int[30][50];
-    public static StringBuilder result=new StringBuilder();
-
-    public static void main(String[] args) throws IOException {
-        int[][]array=new int[30][50];
+    public static void main(String[] args) {
         Scanner scanner=new Scanner(System.in);
+        int[][]array=new int[30][50];
         for (int i = 0; i < 30; i++) {
-            String str = scanner.next();
+            String str = scanner.nextLine();
             for (int j = 0; j < 50; j++) {
-                array[i][j]=Integer.parseInt(str.charAt(j)+"");
+                array[i][j]=str.charAt(j)-'0';
             }
         }
-        for (int[] ints : minBuShu) {
-            Arrays.fill(ints,Integer.MAX_VALUE);
+        // BFS 第一次走到出口时就是最短路径
+        // 找到字典序最小的路径 即根据字典序进行广度优先搜索
+        int[]dx={1,0,0,-1};
+        int[]dy={0,-1,1,0};
+        boolean[][]isVisited=new boolean[30][50];
+        LinkedList<Point>queue=new LinkedList<>();
+        Point start = new Point(0, 0,"");
+        queue.add(start);
+        String[]chars={"D","L","R","U"};
+        while (!queue.isEmpty()){
+            Point poll = queue.poll();
+            int x=poll.x;
+            int y=poll.y;
+            if (x==29 && y==49){
+                // 出口
+                System.out.println(poll.path);
+            }
+            if (isVisited[x][y]){
+                continue;
+            }
+            isVisited[x][y]=true;
+            for (int i = 0; i < 4; i++) {
+                int xx = x + dx[i];
+                int yy = y + dy[i];
+                if (xx<0||xx>=30||yy<0||yy>=50 || array[xx][yy]==1){
+                    continue;
+                }
+                Point point = new Point(xx, yy,poll.path+chars[i]);
+                queue.add(point);
+            }
         }
-        dfs(array,0,0,0);
-        System.out.println(result.toString());
-    }
 
-    public static void dfs(int[][] array,int x,int y,int count){
-        if (x<0 || x>=30 || y<0 || y>=50 || array[x][y]==1) {
-           return;
-        }
-        if (x==29 && y==49){
-            if (count<min){
-                // 更新当前路径
-                min=count;
-                result=new StringBuilder();
-                for (String s : path) {
-                    result.append(s);
-                }
-            }else if (count==min){
-                // 选择字典序最小的
-                for (int i = 0; i <path.size() ; i++) {
-                    char now=path.get(i).charAt(0);
-                    if (now<result.charAt(i)){
-                        result=new StringBuilder();
-                        for (String s : path) {
-                            result.append(s);
-                        }
-                        return;
-                    }
-                }
-            }
-            return;
-        }
-        if (count>minBuShu[x][y]){
-            return;
-        }
-        minBuShu[x][y]=count;
-        for (int i = 0; i < 4; i++) {
-            int xx = x + dx[i];
-            int yy = y + dy[i];
-            path.add(chars[i]);
-            dfs(array,xx,yy,count+1);
-            path.remove(chars[i]);
+
+    }
+    public static class Point {
+        int x;
+        int y;
+        String path;
+        public Point(int x, int y, String path) {
+            this.x=x;
+            this.y=y;
+            this.path=path;
         }
     }
 }
