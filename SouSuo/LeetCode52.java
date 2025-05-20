@@ -1,6 +1,6 @@
 package SouSuo;
 
-public class LeetCode52 {
+public class LeetCode52{
     private static int count;
     private static int[]lie;
     private static int[]youXia;
