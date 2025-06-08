@@ -2,6 +2,11 @@ package Hot100;
 
 import java.util.*;
 
+/**
+ * 本题暴力写法是三重循环找到符号条件的 i,j和k,然后再去重，时间复杂度为三次方
+ * 对数组进行排序，采用双指针策略，将第二层循环和第三层循环处在一层，时间复杂度可降低为二次方
+ * 在一层循环中通过 l和r变量寻找符合元素，通过判断相邻元素是否相等实现去重
+ */
 public class L6 {
     public static void main(String[] args) {
     }
