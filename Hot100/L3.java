@@ -1,29 +1,29 @@
 package Hot100;
+
 import java.util.HashSet;
-import java.util.Set;
 
 public class L3 {
 
     public int longestConsecutive(int[] nums) {
-        Set<Integer> set=new HashSet<>();
+        // 使用HashSet存储所有数，用来判断该数是否存在
+        HashSet<Integer> set = new HashSet<>();
         for (int num : nums) {
             set.add(num);
         }
-        int maxLength=0;
-        for (int num : set) {
-            if (set.contains(num - 1)) {
+        int maxLen=0;
+        // 细节：遍历set中的元素会比遍历nums中的元素少
+        for (int current : set) {
+            if (set.contains(current - 1)) {
                 continue;
             }
-            // 从当前数开始向后找
-            int currentNum = num;
-            int currentLength = 1;
-            // 在while循环中不是每次都遍历n个元素 而是每个元素只会被处理一次
-            while (set.contains(currentNum + 1)) {
-                currentNum++;
-                currentLength++;
+            int len = 1;
+            int search = current + 1;
+            while (set.contains(search)) {
+                len++;
+                search++;
             }
-            maxLength = Math.max(currentLength, maxLength);
+            maxLen = Math.max(len, maxLen);
         }
-        return maxLength;
+        return maxLen;
     }
 }
