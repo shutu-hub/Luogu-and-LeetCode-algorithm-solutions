@@ -17,11 +17,13 @@ jobs:
         run: |
           git config --global user.name "${{ secrets.GITEE_USERNAME }}"
           git config --global user.email "${{ secrets.MY_GITHUB_USERNAME }}@users.noreply.github.com"
-          git clone --mirror https://${{ secrets.GITEE_ACCESS_TOKEN }}@gitee.com/${{ secrets.GITEE_REPO }} repo
-          cd repo
+
+          git clone --mirror \
+            https://${{ secrets.GITEE_USERNAME }}:${{ secrets.GITEE_ACCESS_TOKEN }}@gitee.com/${{ secrets.GITEE_REPO }}.git \
+            repo
 
       - name: Push to GitHub
         run: |
           cd repo
-          git remote add github https://${{ secrets.MY_GITHUB_TOKEN }}@github.com/${{ secrets.MY_GITHUB_REPO }}.git
+          git remote add github https://${{ secrets.MY_GITHUB_USERNAME }}:${{ secrets.MY_GITHUB_TOKEN }}@github.com/${{ secrets.MY_GITHUB_REPO }}.git
           git push github --mirror --force
