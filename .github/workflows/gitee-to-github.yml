@@ -2,24 +2,38 @@ name: Mirror Gitee to GitHub
 
 on:
   schedule:
-    - cron: "*/5 * * * *"   # 每5分钟同步一次
-  workflow_dispatch:         # 允许手动触发
+    - cron: "*/30 * * * *"   # 建议 30 分钟同步一次
+  workflow_dispatch:         # 支持手动触发
 
 jobs:
   sync:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Mirror from Gitee
+      - name: Setup Git identity
         run: |
           git config --global user.name "${{ secrets.GITEE_USERNAME }}"
           git config --global user.email "${{ secrets.GITEE_USERNAME }}@gitee.com"
 
+      - name: Clone from Gitee (mirror)
+        run: |
           git clone --mirror \
             https://${{ secrets.GITEE_USERNAME }}:${{ secrets.GITEE_ACCESS_TOKEN }}@gitee.com/${{ secrets.GITEE_REPO }}.git \
             repo
 
-      - name: Push to GitHub
+      - name: Configure GitHub remote safely
         run: |
           cd repo
-          git remote add github https://${{ secrets.MY_GITHUB_USERNAME }}:${{ secrets.MY_GITHUB_TOKEN }}@github.com/${{ secrets.MY_GITHUB_REPO }}.git
+          git remote add github https://github.com/${{ secrets.MY_GITHUB_REPO }}.git
+          git remote set-url github https://${{ secrets.MY_GITHUB_USERNAME }}:${{ secrets.MY_GITHUB_TOKEN }}@github.com/${{ secrets.MY_GITHUB_REPO }}.git
+
+      - name: Push to GitHub (mirror)
+        run: |
+          cd repo
           git push github --mirror --force
+
+      - name: Cleanup credentials
+        if: always()
+        run: |
+          git config --global --unset credential.helper || true
+          rm -rf ~/.git-credentials || true
