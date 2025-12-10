@@ -17,25 +17,25 @@ public class L2 {
      * @return
      */
     public static List<List<String>> groupAnagrams(String[] strs) {
-        // key存储排序后的字符串 value存储异位的字符串
-        Map<String, List<String>> map = new HashMap<>();
+        List<List<String>> lists = new ArrayList<>();
+        Map<String,List<String>> map = new HashMap<>();
         for (String str : strs) {
-            // 对字符串排序 这样异位的字符串将相等
             char[] chars = str.toCharArray();
             Arrays.sort(chars);
-            String key = new String(chars);
-            if (map.containsKey(key)) {
-                map.get(key).add(str);
-            } else {
-                List<String> list = new ArrayList<>();
+            // String string = chars.toString(); string:[C@119d7047 chars 数组没有重写toString方法，无法直接用来比较
+            String key = Arrays.toString(chars);//  String key = new String(chars);
+            if (map.containsKey(key)){
+                List<String> list = map.get(key);
                 list.add(str);
-                map.put(key, list);
+            }else{
+                ArrayList<String> values = new ArrayList<>();
+                values.add(str);
+                map.put(key,values);
             }
         }
-        List<List<String>> ans = new ArrayList<>();
-        for (String key : map.keySet()) {
-            ans.add(map.get(key));
+        for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+            lists.add(entry.getValue());
         }
-        return ans;
+        return lists;
     }
 }

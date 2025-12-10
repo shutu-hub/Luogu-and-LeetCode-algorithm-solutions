@@ -9,11 +9,10 @@ public class L1 {
             map.put(nums[i],i);
         }
         for (int i = 0; i < nums.length; i++) {
-            if (map.containsKey(target-nums[i])){
-                // 可以组成组合
-                // 不能两次使用相同的元素
-                if (i!=map.get(target-nums[i])) {
-                    return new int[]{i, map.get(target - nums[i])};
+            int search=target-nums[i];
+            if (map.containsKey(search)){
+                if (i!=map.get(search)){
+                    return new int[]{i,map.get(search)};
                 }
             }
         }
