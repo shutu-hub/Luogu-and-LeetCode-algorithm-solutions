@@ -1,0 +1,27 @@
+name: Mirror Gitee to GitHub
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Gitee Repo
+        run: |
+          git config --global user.name "${{ secrets.GITEE_USERNAME }}"
+          git config --global user.email "${{ secrets.MY_GITHUB_USERNAME }}@users.noreply.github.com"
+          git clone --mirror https://${{ secrets.GITEE_ACCESS_TOKEN }}@gitee.com/${{ secrets.GITEE_REPO }} repo
+          cd repo
+
+      - name: Push to GitHub
+        run: |
+          cd repo
+          git remote add github https://${{ secrets.MY_GITHUB_TOKEN }}@github.com/${{ secrets.MY_GITHUB_REPO }}.git
+          git push github --mirror --force
