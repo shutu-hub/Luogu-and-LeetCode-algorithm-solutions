@@ -2,8 +2,8 @@ name: Mirror Gitee to GitHub
 
 on:
   schedule:
-    - cron: "*/30 * * * *"   # 建议 30 分钟同步一次
-  workflow_dispatch:         # 支持手动触发
+    - cron: "*/30 * * * *"   # 每30分钟同步
+  workflow_dispatch:         # 手动触发
 
 jobs:
   sync:
@@ -24,13 +24,20 @@ jobs:
       - name: Configure GitHub remote safely
         run: |
           cd repo
-          git remote add github https://github.com/${{ secrets.MY_GITHUB_REPO }}.git
-          git remote set-url github https://${{ secrets.MY_GITHUB_USERNAME }}:${{ secrets.MY_GITHUB_TOKEN }}@github.com/${{ secrets.MY_GITHUB_REPO }}.git
+          git remote add github https://${{ secrets.MY_GITHUB_USERNAME }}:${{ secrets.MY_GITHUB_TOKEN }}@github.com/${{ secrets.MY_GITHUB_REPO }}.git
 
-      - name: Push to GitHub (mirror)
+      - name: Push to GitHub (safe mirror)
         run: |
           cd repo
-          git push github --mirror --force
+
+          # 删除 Gitee 中的 PR refs，避免 GitHub 拒绝 push
+          rm -rf refs/pull || true
+          rm -rf refs/changes || true
+
+          # 只镜像 branches + tags（不推送 PR hidden refs）
+          git push github --prune \
+            +refs/heads/*:refs/heads/* \
+            +refs/tags/*:refs/tags/*
 
       - name: Cleanup credentials
         if: always()
