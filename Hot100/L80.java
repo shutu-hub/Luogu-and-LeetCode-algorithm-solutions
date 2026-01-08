@@ -26,20 +26,15 @@ public class L80 {
         for (int i = 0; i < chars.length; i++) {
            map.put(chars[i],i);
         }
-        int maxRight = 0;
         List<Integer> res = new ArrayList<>();
-        int lastIndex = 0;
+        int start = 0, end =0;
         for (int i = 0; i < chars.length; i++) {
-            if (i>maxRight){
-                res.add(i-lastIndex);
-                lastIndex=i;
-            }
-            if (i==chars.length-1){
-                res.add(i-lastIndex+1);
-                lastIndex=i;
-            }
             Integer indexMax = map.get(chars[i]);// 该元素最大下标
-            maxRight=Math.max(maxRight,indexMax);
+            end=Math.max(end,indexMax);
+            if (i==end){
+                res.add(end-start+1);
+                start=i+1;
+            }
         }
         return res;
     }
