@@ -13,6 +13,7 @@ public class L59 {
             System.out.println(s);
         }
     }
+
     public static List<String> generateParenthesis(int n) {
         res = new ArrayList<>();
         // 深度为 2n,放右括号的时候，要使左括号的个数--
