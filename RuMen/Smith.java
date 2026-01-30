@@ -42,6 +42,7 @@ public class Smith {
             sum+=2;
             n /= 2;
         }
+
         // 处理奇数因子
         for (int i = 3; i <= Math.sqrt(n); i += 2) {
             while (n % i == 0) {
@@ -56,3 +57,5 @@ public class Smith {
         return sum;
     }
 }
+
+
