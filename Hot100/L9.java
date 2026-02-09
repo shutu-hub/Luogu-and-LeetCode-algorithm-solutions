@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class L9 {
+
     public static void main(String[] args) {
         findAnagrams("cbaebabacd","abc");
     }
@@ -22,6 +23,7 @@ public class L9 {
             countP[p.charAt(i)-'a']++;
             countS[s.charAt(i)-'a']++;
         }
+
         ArrayList<Integer> lists = new ArrayList<>();
         if (Arrays.equals(countP,countS)){
             lists.add(0);
