@@ -16,11 +16,14 @@ public class L11 {
         LinkedList<Integer> window = new LinkedList<>();
         int[] result = new int[nums.length-k+1];
         int index = 0;
+
         for (int right = 0; right < nums.length; right++) {
+            // 保证队列的有序性
              while (window.peekLast()!=null && nums[right]>=nums[window.peekLast()]){
                     window.pollLast();
              }
              window.offer(right);
+             // 排除已经过期的元素
              while (window.peekFirst()!=null && right-window.peekFirst()>=k){
                  window.pollFirst();
              }
