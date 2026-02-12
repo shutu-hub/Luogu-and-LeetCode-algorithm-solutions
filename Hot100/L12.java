@@ -14,11 +14,13 @@ public class L12 {
         for (int i = 0; i < t.length(); i++) {
             target[t.charAt(i)]++;
         }
+
         int[] window = new int[128];
         char[] chars = s.toCharArray();
         int left = 0;
         int minLength = Integer.MAX_VALUE;
         int minLeft = 0;
+
         for (int right = 0; right < chars.length; right++) {
             window[chars[right]]++;
             // 判断窗口是否满足要求
