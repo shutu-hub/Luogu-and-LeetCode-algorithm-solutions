@@ -1,32 +1,26 @@
 package Hot100;
 
+/**
+ * HOT100-4:移动零
+ */
 public class L4 {
     public static void main(String[] args) {
         moveZeroess(new int[]{0,1,0,3,12});
     }
 
     public static void moveZeroess(int[] nums) {
-        // 方法一：将所有元素移动到开头，末尾直接补0
-        // 方法二：双指针，将0元素
-        // 1 0 0 3 2 0
-        // 1 3 0 0 2 0
-        // 1 3 2 0 0 0
-        for(int i=0;i<nums.length;i++){
-            if(nums[i]==0){
-                // 找到该元素后第一个不为0的数，交换
-                int right=i+1;
-                while(right<nums.length){
-                    if(nums[right]!=0){
-                        nums[i]=nums[right];
-                        nums[right]=0;
-                        break;
-                    }
-                    right++;
-                }
+        int left = 0;
+        for (int right = 0; right < nums.length; right++) {
+            if (nums[right]!=0){
+                nums[left]=nums[right];
+                left++;
             }
         }
-        for(int ele:nums){
-            System.out.println(ele);
+        for (int i = left; i < nums.length; i++) {
+            nums[i]=0;
+        }
+        for (int num : nums) {
+            System.out.print(num+" ");
         }
     }
 
