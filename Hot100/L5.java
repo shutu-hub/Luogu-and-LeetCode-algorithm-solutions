@@ -3,6 +3,7 @@ package Hot100;
 
 
 /**
+ * HOT100-5:盛最多水的容器
  * 解题思路：
  *  本题数据量为1e5,如果通过模拟解题，即两层for循环，外层枚举左边界，内层枚举右边界，时间复杂度为O(n方)，超时
  *  采用双指针策略，左右指针指向两个边界，每次移动高度较小的那个
@@ -15,18 +16,20 @@ package Hot100;
  */
 public class L5 {
     public int maxArea(int[] height) {
-        int area=-1;
         int l=0,r=height.length-1;
+        int maxArea = 0;
         while (l<r){
-            int area_temp=Math.min(height[l],height[r])*(r-l);
-            area=Math.max(area,area_temp);
-            // 移动边界 移动高度较小的
+            // 计算当前的盛水面积
+            int minHeight=Math.min(height[l],height[r]);
+            int area=(r-l)*minHeight;
+            maxArea=Math.max(maxArea,area);
+            // 移动指向较小高度的指针
             if (height[l]<=height[r]){
                 l++;
             }else{
                 r--;
             }
         }
-        return area;
+        return maxArea;
     }
 }
