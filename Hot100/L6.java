@@ -21,28 +21,27 @@ public class L6 {
     }
 
     public static List<List<Integer>> threeSum(int[] nums) {
-       // nums[l]+nums[r]=-nums[i]
+        // nums[i]+nums[j]=-nums[k]
         List<List<Integer>> lists = new ArrayList<>();
-       Arrays.sort(nums);
+        Arrays.sort(nums);
         for (int i = 0; i < nums.length; i++) {
             if (i>0 && nums[i]==nums[i-1]){
-                // 这个数和前边一个数重复 则会导致出现相同的组合 跳过
+                // 这个数和之前的数重复，跳过
                 continue;
             }
-            int l=i+1;int r=nums.length-1;
-            // i < l < r
-            while(l<r){
-                if (nums[l]+nums[r]==-nums[i]){
-                    lists.add(Arrays.asList(nums[i],nums[l],nums[r]));
-                    l++;
-                    r--;
-                    // 跳过重复的数
-                    while(l<r && nums[l]==nums[l-1])l++;
-                    while(l<r && nums[r]==nums[r+1])r--;
-                }else if (nums[l]+nums[r]<-nums[i]){
-                    l++;
-                }else{
-                    r--;
+            // nums[i]确定，寻找nums[j]和nums[k],nums[j]+nums[k]=-nums[i]
+            int j =i+1,k=nums.length-1;
+            while (j<k){
+                if (nums[j]+nums[k]==-nums[i]){
+                    lists.add(Arrays.asList(nums[i],nums[j],nums[k]));
+                    j++;//数增大
+                    k--;//数减小
+                    while (j<k && nums[j]==nums[j-1])j++;
+                    while (j<k && nums[k]==nums[k+1])k--;
+                }else if (nums[j]+nums[k]<-nums[i]){
+                    j++;
+                }else {
+                    k--;
                 }
             }
         }
