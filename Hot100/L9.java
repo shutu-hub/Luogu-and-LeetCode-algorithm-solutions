@@ -4,39 +4,42 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * HOT100-9:找到字符串中所有字母异位词
+ */
 public class L9 {
 
     public static void main(String[] args) {
-        findAnagrams("cbaebabacd","abc");
+        List<Integer> res = findAnagrams("cbaebabacd", "abc");
+        for (Integer ele : res) {
+            System.out.print(ele+" ");
+        }
     }
 
     public static List<Integer> findAnagrams(String s, String p) {
-        // s串长度小于p，不会出现异位词的子串
+       // 在 s 中找到 p 字母异位词
         if (s.length()<p.length()){
             return new ArrayList<>();
         }
-        // 统计两个字符串对应字符的数量
-        int[]countP=new int[26];
-        int[]countS=new int[26];
-        // 先统计前p.length()个长度的个数
+        int[] count = new int[26];
+        int[] targerCount = new int[26];
         for (int i = 0; i < p.length(); i++) {
-            countP[p.charAt(i)-'a']++;
-            countS[s.charAt(i)-'a']++;
+            targerCount[p.charAt(i)-'a']++;
         }
-
-        ArrayList<Integer> lists = new ArrayList<>();
-        if (Arrays.equals(countP,countS)){
-            lists.add(0);
-        }
-        // 统计之后的个数，右边界元素个数++，旧的左边界个数--
-        int left=1;
-        for (int i = p.length(); i < s.length() ; i++,left++) {
-            countS[s.charAt(i)-'a']++;
-            countS[s.charAt(left-1)-'a']--;// left 是新的左边界，left -1 是旧的左边界
-            if (Arrays.equals(countP,countS)){
-                lists.add(left);
+        int left = 0;
+        char[] chars = s.toCharArray();
+        List<Integer> res = new ArrayList<>();
+        for (int right = 0; right < chars.length; right++) {
+            count[chars[right]-'a']++;
+            if (right-left+1==p.length()){
+                // 判断数组是否相等
+                if (Arrays.equals(count,targerCount)){
+                    res.add(left);
+                }
+                count[chars[left]-'a']--;
+                left++;
             }
         }
-        return lists;
+        return res;
     }
 }
