@@ -5,22 +5,28 @@ import java.util.*;
 public class L14 {
 
     public static void main(String[] args) {
-        int[][] ints = merge(new int[][]{{1,4},{4,5}});
+        int[][] ints = merge(new int[][]{{1,4},{0,2},{3,5}});
+        for (int[] anInt : ints) {
+            System.out.print(Arrays.toString(anInt)+" ");
+        }
     }
 
     public static int[][] merge(int[][] intervals) {
+        // 合并重叠区间
+        // [1,4] [2,3] [3,5]
         Arrays.sort(intervals, Comparator.comparingInt(o -> o[0]));
-        List<int[]> merged = new ArrayList<>();
-        for (int i = 0; i < intervals.length; i++) {
-            int left = intervals[i][0];
-            int right = intervals[i][1];
-            if (merged.isEmpty() || merged.get(merged.size()-1)[1]<left){
-                // 如果合并区间为空，则该区间为第一个,可直接加入 或者 该区间和下一个区间不重叠
-                merged.add(new int[]{left,right});
-            }else{
-                merged.get(merged.size()-1)[1]=Math.max(merged.get(merged.size()-1)[1],right);
+        List<int[]> list = new ArrayList<>();// 记录合并后的的每一段区间
+        list.add(intervals[0]);
+        for (int i = 1; i < intervals.length; i++) {
+            int[] ints = list.get(list.size() - 1);
+            if (intervals[i][0]<=ints[1]){
+                // 合并
+                intervals[i][0]=ints[0];
+                intervals[i][1]=Math.max(ints[1],intervals[i][1]);
+                list.remove(list.size() - 1);
             }
+            list.add(intervals[i]);
         }
-        return merged.toArray(new int[merged.size()][]);
+        return list.toArray(new int[list.size()][]);
     }
 }
