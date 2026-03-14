@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class L16 {
     public static void main(String[] args) {
-        int[] ints = productExceptSelf(new int[]{-1,1,0,-3,3});
+        int[] ints = productExceptSelf(new int[]{1,2,3,4});
         System.out.println(Arrays.toString(ints));
     }
 
@@ -15,22 +15,34 @@ public class L16 {
      * @param nums
      * @return
      */
+//    public static int[] productExceptSelf(int[] nums) {
+//        int[]prefix = new int[nums.length];
+//        int[]sufix = new int[nums.length];
+//        prefix[0]=1;
+//        sufix[nums.length-1]=1;
+//        for (int i = 1; i < nums.length; i++) {
+//            prefix[i]=prefix[i-1]*nums[i-1];
+//        }
+//        for (int i = nums.length-2 ; i >=0 ; i--) {
+//            sufix[i]=sufix[i+1]*nums[i+1];
+//        }
+//        for (int i = 0; i < nums.length; i++) {
+//            nums[i]=prefix[i]*sufix[i];
+//        }
+//        return nums;
+//    }
+
     public static int[] productExceptSelf(int[] nums) {
-        // 算出左边的乘积，右边的乘积
-        int[] answer = new int[nums.length];
-        // 第一位右边所有数的乘积
-        int[]prefixSum=new int[nums.length];
-        int[]sufixSum=new int[nums.length];
-        prefixSum[0]=1;
-        sufixSum[nums.length-1]=1;
+        // 将输出数组answer代替前缀数组
+        int[]answer = new int[nums.length];
+        answer[0]=1;
         for (int i = 1; i < nums.length; i++) {
-            prefixSum[i]=prefixSum[i-1]*nums[i-1];
+            answer[i]=answer[i-1]*nums[i-1];
         }
-        for (int i = nums.length-2; i>=0; i--) {
-            sufixSum[i]=sufixSum[i+1]*nums[i+1];
-        }
-        for (int i = 0; i < nums.length; i++) {
-            answer[i]=prefixSum[i]*sufixSum[i];
+        int r = 1;
+        for (int i = nums.length-1; i >=0 ; i--) {
+            answer[i]=answer[i]*r;
+            r*=nums[i];
         }
         return answer;
     }
