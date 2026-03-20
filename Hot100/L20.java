@@ -7,24 +7,20 @@ public class L20 {
     }
     public void rotate(int[][] matrix) {
         int n = matrix.length;
-        // 顺时针旋转90°，matrix[j][n-i-1]=matrix[i][j]
-        // 一次完整的旋转需要旋转四次
-        /**
-         * matrix[n-i-1][n-j-1]=matrix[j][n-i-1];
-         * 带入右侧对应的整体 i 和 j
-         * 第一个位置为 j：n-i-1;
-         * 第二个位置为 n-i-1:n-j-1;
-         */
-        for (int i = 0; i < n / 2; ++i) {
-            for (int j = i; j < n-i-1; ++j) {
-               int temp=matrix[i][j];
-               matrix[i][j]=matrix[n-j-1][i];
-               matrix[n-j-1][i]=matrix[n-i-1][n-j-1];
-               matrix[n-i-1][n-j-1]=matrix[j][n-i-1];
-               matrix[j][n-i-1]=temp;
+        // row=col,col=n-row-1
+        // 顺时针旋转90°，matrix[row][col]=matrix[n-row-1][col]
+        // matrix[col][n-row-1]=martix[row][col]
+        for (int i = 0; i < n/2; i++) {
+            for (int j = 0; j < (n+1)/2 ; j++) {
+                int temp = matrix[i][j];
+                // j = n-row-1 -> row = n-j-1
+                matrix[i][j]=matrix[n-j-1][i];
+                // i = n-row-1
+                matrix[n-j-1][i]=matrix[n-i-1][n-j-1];
+                // n-j-1 = n-row-1
+                matrix[n-i-1][n-j-1]=matrix[j][n-i-1];
+                matrix[j][n-i-1]=temp;
             }
         }
-
-
     }
 }
