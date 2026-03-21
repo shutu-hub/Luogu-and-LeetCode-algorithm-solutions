@@ -1,3 +1,5 @@
+package Enumeration.src.main.java;
+
 import java.util.Scanner;
 
 public class P1217 {
