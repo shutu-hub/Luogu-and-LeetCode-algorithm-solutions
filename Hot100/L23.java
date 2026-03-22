@@ -14,7 +14,12 @@ public class L23 {
 
     }
 
-    public ListNode reverseList(ListNode head) {
+  /**
+   * 第23题反转链表
+   * @param head
+   * @return
+   */
+  public ListNode reverseList(ListNode head) {
         // 创建一个新的链表，头插法
       ListNode newNodeHead = null;
       while (head!=null){
