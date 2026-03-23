@@ -36,6 +36,7 @@ public class L22 {
         return null;
     }
 
+
     public ListNode getIntersectionNode2(ListNode headA, ListNode headB) {
         ListNode x =headA;
         ListNode y =headB;
