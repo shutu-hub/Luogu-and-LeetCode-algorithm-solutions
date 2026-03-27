@@ -23,6 +23,7 @@ public class L25 {
         }
         ListNode quick = head;
         ListNode slow = head;
+
         // 快慢指针，快指针每次走两步，慢指针每次走一步，若快指针不为null但与慢指针相等，则说明有环
         while (quick!=null){
             slow=slow.next;
